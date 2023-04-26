@@ -9,6 +9,7 @@ let todoToEdit;
 let popupInput;
 let popupAddBtn;
 let popupCloseBtn;
+let todos = JSON.parse(localStorage.getItem('todos')) || [];
 
 const main = () => {
 	prepareDOMElements();
@@ -31,8 +32,24 @@ const prepareDOMEvents = () => {
 	addBtn.addEventListener('click', newTask);
 	document.addEventListener('click', checkClick);
 	popupCloseBtn.addEventListener('click', closePopup);
-    popupAddBtn.addEventListener('click', changeTodoText);
-    document.addEventListener('keyup', enterKeyCheck)
+	popupAddBtn.addEventListener('click', changeTodoText);
+	document.addEventListener('keyup', enterKeyCheck);
+	renderTodosFromLocalStorage();
+};
+
+const saveTodoToLocalStorage = () => {
+	const editRegex = /Edit$/;
+	const todosWithoutEdit = todos.map((todo) => todo.replace(editRegex, ''));
+	localStorage.setItem('todos', JSON.stringify(todosWithoutEdit));
+};
+
+const renderTodosFromLocalStorage = () => {
+	todos.forEach((todo) => {
+		newTodo = document.createElement('li');
+		newTodo.textContent = todo;
+		createToolsArea();
+		ulList.append(newTodo);
+	});
 };
 
 const newTask = () => {
@@ -43,6 +60,8 @@ const newTask = () => {
 		ulList.append(newTodo);
 		toDoInput.value = '';
 		errorInfo.textContent = '';
+		todos.push(newTodo.textContent);
+		saveTodoToLocalStorage();
 	} else {
 		errorInfo.textContent = 'Wpisz treść zadania!';
 	}
@@ -77,8 +96,8 @@ const checkClick = (e) => {
 };
 
 const editToDo = (e) => {
-    todoToEdit = e.target.closest('li')
-    popupInput.value = todoToEdit.firstChild.textContent
+	todoToEdit = e.target.closest('li');
+	popupInput.value = todoToEdit.firstChild.textContent;
 	popup.style.display = 'flex';
 };
 const closePopup = () => {
@@ -86,31 +105,36 @@ const closePopup = () => {
 };
 
 const changeTodoText = () => {
-    if(popupInput.value !== '') {
-        todoToEdit.firstChild.textContent = popupInput.value
-        popup.style.display = 'none';
-        popupInfo.textContent = '';
-    }
-    else {
-        popupInfo.textContent = 'Musisz podać jakąś treść'
-    }
-}
-const deleteTodo = e => {
-    deletedElement = e.target.closest('li');
-    deletedElement.remove()
+	if (popupInput.value !== '') {
+		todoToEdit.firstChild.textContent = popupInput.value;
+		popup.style.display = 'none';
+		popupInfo.textContent = '';
+		const todoIndex = todos.indexOf(todoToEdit.firstChild.textContent);
+		todos[todoIndex] = popupInput.value;
+		saveTodoToLocalStorage();
+	} else {
+		popupInfo.textContent = 'Musisz podać jakąś treść';
+	}
+};
+const deleteTodo = (e) => {
+	const deletedElement = e.target.closest('li');
+	const deletedTask = deletedElement.firstChild.textContent;
+	deletedElement.remove();
 
-    const allTodos = document.querySelectorAll('li')
+	const todos = JSON.parse(localStorage.getItem('todos')) || [];
+	const updatedTodos = todos.filter((todo) => todo !== deletedTask);
+	localStorage.setItem('todos', JSON.stringify(updatedTodos));
 
-    if(allTodos.length === 0) {
-        errorInfo.textContent ='Brak zadań na liście.'
-    }
+	const allTodos = document.querySelectorAll('li');
+	if (allTodos.length === 0) {
+		errorInfo.textContent = 'Brak zadań na liście.';
+	}
+};
 
-}
-
-const enterKeyCheck = e => {
-    if(e.key === 'Enter') {
-        newTask()
-    }
-}
+const enterKeyCheck = (e) => {
+	if (e.key === 'Enter') {
+		newTask();
+	}
+};
 
 document.addEventListener('DOMContentLoaded', main);
