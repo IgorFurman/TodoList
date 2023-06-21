@@ -104,13 +104,13 @@ const closePopup = () => {
 	popup.style.display = 'none';
 };
 
+// naprawić zapisywanie w ls !!!!!!!!!!!!!!!!!! =====================
+
 const changeTodoText = () => {
 	if (popupInput.value !== '') {
 		todoToEdit.firstChild.textContent = popupInput.value;
 		popup.style.display = 'none';
 		popupInfo.textContent = '';
-		const todoIndex = todos.indexOf(todoToEdit.firstChild.textContent);
-		todos[todoIndex] = popupInput.value;
 		saveTodoToLocalStorage();
 	} else {
 		popupInfo.textContent = 'Musisz podać jakąś treść';
