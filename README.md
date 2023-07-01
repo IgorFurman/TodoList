@@ -1,7 +1,10 @@
-# ToDo List App
+# 📝 ToDo List App
 
 This project is a simple ToDo List application built with HTML, CSS, and JavaScript. The app provides an interface for adding, editing, and removing tasks. The tasks are stored in the browser's local storage.
-## Features
+
+🔗 Live Application: [https://igorfurman.github.io/TodoList/](#)
+
+## ✨ Features
 
 - Add new tasks
 - Edit existing tasks
@@ -10,14 +13,8 @@ This project is a simple ToDo List application built with HTML, CSS, and JavaScr
 - Tasks are stored in local storage
 - Responsive layout
 
-## How to use
-
-1. Clone or download this repository.
-2. Open the `index.html` file using extension like Live Server on VS Code.
-3. Start adding tasks, editing them, marking them as completed, or deleting them.
-
-## Code Structure
-
+## 📂 JavaScript functionalities
+  
 The JavaScript code in the `main.js` file is organized into several functions, each performing a specific task:
 
 - `prepareDOMElements`: Initializes all the DOM elements that will be manipulated.
@@ -30,4 +27,11 @@ The JavaScript code in the `main.js` file is organized into several functions, e
 - `changeTodoText`: Updates the task with the edited text.
 - `deleteTodo`: Deletes the selected task.
 - `enterKeyCheck`: Checks for the Enter key press to add a new task.
+
+
+## 🚀 How to use
+
+1. Clone or download this repository.
+2. Open the `index.html` file using extension like Live Server on VS Code.
+3. Start adding tasks, editing them, marking them as completed, or deleting them.
 
